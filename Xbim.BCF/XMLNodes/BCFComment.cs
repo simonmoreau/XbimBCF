@@ -47,7 +47,7 @@ namespace Xbim.BCF.XMLNodes
             get { return _status; }
             set
             {
-                if (String.IsNullOrEmpty(value))
+                if (value == null)
                 {
                     throw new ArgumentException(this.GetType().Name + " - Status is mandatory");
                 }
@@ -107,7 +107,7 @@ namespace Xbim.BCF.XMLNodes
             get { return _comment; }
             set
             {
-                if (String.IsNullOrEmpty(value))
+                if (value == null)
                 {
                     throw new ArgumentException(this.GetType().Name + " - Comment text is mandatory");
                 }
@@ -198,7 +198,18 @@ namespace Xbim.BCF.XMLNodes
             ModifiedDate = (DateTime?)node.Element("ModifiedDate") ?? null;
             ModifiedAuthor = (String)node.Element("ModifiedAuthor") ?? "";
             VerbalStatus = (String)node.Element("VerbalStatus") ?? "";
-            Topic = new AttrIDNode(node.Element("Topic"));
+
+
+            var topic = node.Elements("Topic").FirstOrDefault();
+            if (topic != null)
+            {
+                Topic = new AttrIDNode(node.Element("Topic"));
+            }
+            else
+            {
+                Topic = new AttrIDNode(node.Parent.Element("Topic"));
+            }
+            
 
             var reply = node.Elements("ReplyToComment").FirstOrDefault();
             if (reply != null)

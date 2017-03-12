@@ -73,7 +73,7 @@ namespace Xbim.BCF.XMLNodes
             {
                 if (value == double.NaN || value < 45 || value > 60)
                 {
-                    throw new ArgumentException(this.GetType().Name + " - FieldOfView - must be a valid 64-bit floating-point value between 45 and 60");
+                    throw new ArgumentException(this.GetType().Name + " - FieldOfView - must be a valid 64-bit floating-point value between 45 and 60"); 
                 }
                 else
                 {
@@ -108,7 +108,21 @@ namespace Xbim.BCF.XMLNodes
                                                                    (double?)node.Element("CameraUpVector").Element("Y") ?? double.NaN,
                                                                    (double?)node.Element("CameraUpVector").Element("Z") ?? double.NaN);
 
-            FieldOfView = (double?)node.Element("FieldOfView") ?? double.NaN;
+            //Correction values out of the specification
+            double baseFieldOfView = (double?)node.Element("FieldOfView") ?? double.NaN;
+            if (baseFieldOfView < 45)
+            {
+                FieldOfView = 45;
+            }
+            else if (baseFieldOfView > 60)
+            {
+                FieldOfView = 60;
+            }
+            else
+            {
+                FieldOfView = baseFieldOfView;
+            }
+            
         }
     }
 }

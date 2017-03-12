@@ -47,10 +47,15 @@ namespace Xbim.BCF
             {
                 PerspectiveCamera = new BCFPerspectiveCamera(pers);
             }
-            foreach (var comp in xdoc.Root.Element("Components").Elements("Component"))
+
+            if (xdoc.Root.Element("Components")!=null)
             {
-                Components.Add(new BCFComponent(comp));
+                foreach (var comp in xdoc.Root.Element("Components").Elements("Component"))
+                {
+                    Components.Add(new BCFComponent(comp));
+                }
             }
+
             var lines = xdoc.Root.Elements("Lines").FirstOrDefault();
             if (lines != null)
             {

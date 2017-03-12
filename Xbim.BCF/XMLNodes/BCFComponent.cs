@@ -19,7 +19,7 @@ namespace Xbim.BCF.XMLNodes
             get { return _color; }
             set
             {
-                if (!String.IsNullOrEmpty(value) && IsHex(value))
+                if (value != null)
                 {
                     _color = value;
                 }

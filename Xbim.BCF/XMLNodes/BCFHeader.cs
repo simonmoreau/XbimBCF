@@ -18,11 +18,18 @@ namespace Xbim.BCF.XMLNodes
         public BCFHeader(XElement node)
         {
             Files = new List<BCFFile>();
-
-            foreach (var file in node.Elements("File"))
+            if (node != null)
             {
-                Files.Add(new BCFFile(file));
+                if (node.Elements("Files") != null)
+                {
+                    foreach (var file in node.Elements("File"))
+                    {
+                        Files.Add(new BCFFile(file));
+                    }
+                }
             }
+
+
         }
     }
 }
